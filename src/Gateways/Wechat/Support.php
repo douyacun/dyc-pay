@@ -78,7 +78,7 @@ class Support
 
         if (!isset($result['return_code']) || $result['return_code'] != 'SUCCESS' || $result['result_code'] != 'SUCCESS') {
             throw new GatewayException(
-                'Get Wechat API Error:'.$result['return_msg'].($result['err_code_des'] ?? ''),
+                'Get Wechat API Error:[msg]'.$result['return_msg'].'[err_code_des]'.($result['err_code_des'] ?? ''),
                 $result,
                 20000
             );

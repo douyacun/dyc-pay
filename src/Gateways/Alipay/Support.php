@@ -76,11 +76,10 @@ class Support
         $result = json_decode($result, true);
 
         $method = str_replace('.', '_', $data['method']).'_response';
-        var_dump($result);die;
 
         if (!isset($result['sign']) || !isset($result[$method]['code']) || $result[$method]['code'] != '10000') {
             throw new GatewayException(
-                'Get Alipay API Error:'.$result[$method]['msg'].($result[$method]['sub_code'] ?? ''),
+                'Get Alipay API Error: [msg]'.$result[$method]['msg'].'[sub_code]'.($result[$method]['sub_code'] ?? ''),
                 $result,
                 $result[$method]['code']
             );

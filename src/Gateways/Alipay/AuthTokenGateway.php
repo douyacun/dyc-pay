@@ -51,13 +51,7 @@ class AuthTokenGateway implements GatewayInterface
 
         $payload['sign'] = Support::generateSign($payload, $this->config->get('private_key'));
         Log::debug('Paying A Transfer Order:', [$endpoint, $payload]);
-        $res =  Support::requestApi($payload, $this->config->get('ali_public_key'));
-        if(isset($res['alipay_user_info_share_response'])){
-			return $res['alipay_user_info_share_response'];
-		} else {
-			return $res;
-		}
-
+        return Support::requestApi($payload, $this->config->get('ali_public_key'));
     }
 
     /**
