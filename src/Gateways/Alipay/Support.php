@@ -94,6 +94,47 @@ class Support
         throw new InvalidSignException('Alipay Sign Verify FAILED', $result);
     }
 
+
+	/**
+	 * Get Alipay API result.
+	 *
+	 * @author yansongda <me@yansongda.cn>
+	 *
+	 * @param array  $data
+	 * @param string $publicKey
+	 *
+	 * @return Collection
+	 */
+	public static function requestOauth(array $data, $publicKey): Collection
+	{
+		Log::debug('Request To Alipay Api', [self::getInstance()->baseUri(), $data]);
+
+		$data = array_filter($data, function ($value) {
+			return ($value == '' || is_null($value)) ? false : true;
+		});
+
+		$result = mb_convert_encoding(self::getInstance()->post('', $data), 'utf-8', 'gb2312');
+		$result = json_decode($result, true);
+
+		$method = str_replace('.', '_', $data['method']).'_response';
+
+		if (!isset($result['sign']) || isset($result['error_response'])) {
+			throw new GatewayException(
+				'Get Alipay API Error: [msg]'.$result['error_response']['msg'].'[sub_code]'.($result['error_response']['sub_code'] ?? ''),
+				$result,
+				$result['error_response']['code']
+			);
+		}
+
+		if (self::verifySign($result[$method], $publicKey, true, $result['sign'])) {
+			return new Collection($result[$method]);
+		}
+
+		Log::warning('Alipay Sign Verify FAILED', $result);
+
+		throw new InvalidSignException('Alipay Sign Verify FAILED', $result);
+	}
+
     /**
      * Generate sign.
      *
