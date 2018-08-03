@@ -40,20 +40,21 @@ class AuthGateway implements GatewayInterface
      */
     public function pay($endpoint, array $payload)
     {
-		$payload['app_id']     = $this->config['appId'];
-		$payload['apiname']    = "com.alipay.account.auth";
-		$payload['app_name']   = "mc";
-		$payload['biz_type']   = "openservice";
-		$payload['pid']        = $this->config->get('pid');
-		$payload['product_id'] = "APP_FAST_LOGIN";
-		$payload['scope']      = "kuaijie";
-		$payload['target_id']  = time();
-		$payload['auth_type']  = "AUTHACCOUNT";
-		$payload['sign_type']  = 'RSA2';//商户生成签名字符串所使用的签名算法类型
-        Log::debug('生成签名 :', $payload);
-		$paramStr = Support::getSignContent($payload);
-		$payload['sign'] = Support::alonersaSign($paramStr, $this->config->get('private_key'));
-        return $this->getSignContentUrlencode($payload);
+    	$params = [];
+		$params['app_id']     = $this->config->get('app_id');
+		$params['apiname']    = "com.alipay.account.auth";
+		$params['app_name']   = "mc";
+		$params['biz_type']   = "openservice";
+		$params['pid']        = $this->config->get('pid');
+		$params['product_id'] = "APP_FAST_LOGIN";
+		$params['scope']      = "kuaijie";
+		$params['target_id']  = time();
+		$params['auth_type']  = "AUTHACCOUNT";
+		$params['sign_type']  = 'RSA2';//商户生成签名字符串所使用的签名算法类型
+        Log::debug('生成签名 :', $params);
+		$paramStr = Support::getSignContent($params);
+		$params['sign'] = Support::alonersaSign($paramStr, $this->config->get('private_key'));
+        return $this->getSignContentUrlencode($params);
     }
 
 	/**

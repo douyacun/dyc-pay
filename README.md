@@ -1,15 +1,3 @@
-<h1 align="center">Pay</h1>
-
-<p align="center">
-<a href="https://styleci.io/repos/100355112"><img src="https://styleci.io/repos/100355112/shield?branch=master" alt="StyleCI"></a>
-<a href="https://scrutinizer-ci.com/g/douyacun/pay/?branch=master"><img src="https://scrutinizer-ci.com/g/douyacun/pay/badges/quality-score.png?b=master" alt="Scrutinizer Code Quality"></a>
-<a href="https://scrutinizer-ci.com/g/douyacun/pay/build-status/master"><img src="https://scrutinizer-ci.com/g/douyacun/pay/badges/build.png?b=master" alt="Build Status"></a>
-<a href="https://packagist.org/packages/douyacun/pay"><img src="https://poser.pugx.org/douyacun/pay/v/stable" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/douyacun/pay"><img src="https://poser.pugx.org/douyacun/pay/downloads" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/douyacun/pay"><img src="https://poser.pugx.org/douyacun/pay/v/unstable" alt="Latest Unstable Version"></a>
-<a href="https://packagist.org/packages/douyacun/pay"><img src="https://poser.pugx.org/douyacun/pay/license" alt="License"></a>
-</p>
-
 ## 声明: 使用的是laravel-pay, 只是因为需要扩展其他接口才复制的
 
 
