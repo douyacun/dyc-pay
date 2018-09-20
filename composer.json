@@ -3,6 +3,7 @@
     "description": "专注 Alipay 和 WeChat 的支付扩展包",
     "keywords": ["alipay", "wechat", "pay"],
     "type": "library",
+    "version":"1.0.4",
     "support": {
         "issues": "https://github.com/douyacun/pay/issues",
         "source": "https://github.com/douyacun/pay"

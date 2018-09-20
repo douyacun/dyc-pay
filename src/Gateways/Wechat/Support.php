@@ -69,20 +69,30 @@ class Support
     {
         Log::debug('Request To Wechat Api', [self::baseUri().$endpoint, $data]);
 
-		$result = self::getInstance()->post(
-            $endpoint,
-            self::toXml($data),
-            $cert
-        );
-        $result = is_array($result) ? $result : self::fromXml($result);
+        $tries = 2;
+        while($tries){
+			$result = self::getInstance()->post(
+				$endpoint,
+				self::toXml($data),
+				$cert
+			);
+			$result = is_array($result) ? $result : self::fromXml($result);
 
-        if (!isset($result['return_code']) || $result['return_code'] != 'SUCCESS' || $result['result_code'] != 'SUCCESS') {
-            throw new GatewayException(
-                'Get Wechat API Error:[msg]'.$result['return_msg'].'[err_code_des]'.($result['err_code_des'] ?? ''),
-                $result,
-                20000
-            );
-        }
+			//系统繁忙，请稍后再试。微信内部接口调用发生错误, 请务必使用原商户订单号进行重试。
+			if (isset($result['err_code']) && $result['err_code'] == "SYSTEMERROR"){
+				$tries--;
+			} elseif (!isset($result['return_code']) || $result['return_code'] != 'SUCCESS' || $result['result_code'] != 'SUCCESS') {
+				throw new GatewayException(
+					'Get Wechat API Error:[msg]'.$result['return_msg'].'[err_code_des]'.($result['err_code_des'] ?? ''),
+					$result,
+					20000
+				);
+			} else {
+				$tries = 0;
+			}
+		}
+
+
 
         if (strpos($endpoint, 'mmpaymkttransfers') !== false || self::generateSign($result, $key) === $result['sign']) {
             return new Collection($result);
